@@ -121,6 +121,10 @@ module "helm_addon" {
       value = var.adot_loglevel
     },
     {
+      name  = "adotServiceTelemetryLoglevel"
+      value = var.adot_service_telemetry_loglevel
+    },
+    {
       name  = "accountId"
       value = local.context.aws_caller_identity_account_id
     },

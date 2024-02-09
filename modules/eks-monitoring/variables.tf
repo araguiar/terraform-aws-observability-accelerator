@@ -58,9 +58,15 @@ variable "irsa_iam_additional_policies" {
 }
 
 variable "adot_loglevel" {
-  description = "Verbosity level for ADOT collector logs. This accepts (detailed|normal|basic), see https://aws-otel.github.io/docs/components/misc-exporters for mor infos."
+  description = "Verbosity level for ADOT collector logs. This accepts (detailed|normal|basic), see https://aws-otel.github.io/docs/components/misc-exporters for more info."
   type        = string
   default     = "normal"
+}
+
+variable "adot_service_telemetry_loglevel" {
+  description = "Verbosity level for ADOT service telemetry logs. See https://opentelemetry.io/docs/collector/configuration/#telemetry for more info."
+  type        = string
+  default     = "INFO"
 }
 
 variable "managed_prometheus_workspace_endpoint" {
