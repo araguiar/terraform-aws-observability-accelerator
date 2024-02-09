@@ -340,24 +340,24 @@ variable "enable_nginx" {
 variable "nginx_config" {
   description = "Configuration object for NGINX monitoring"
   type = object({
-    enable_alerting_rules  = bool
-    enable_recording_rules = bool
-    enable_dashboards      = bool
-    scrape_sample_limit    = number
+    enable_alerting_rules  = optional(bool)
+    enable_recording_rules = optional(bool)
+    enable_dashboards      = optional(bool)
+    scrape_sample_limit    = optional(number)
 
-    flux_gitrepository_name   = string
-    flux_gitrepository_url    = string
-    flux_gitrepository_branch = string
-    flux_kustomization_name   = string
-    flux_kustomization_path   = string
+    flux_gitrepository_name   = optional(string)
+    flux_gitrepository_url    = optional(string)
+    flux_gitrepository_branch = optional(string)
+    flux_kustomization_name   = optional(string)
+    flux_kustomization_path   = optional(string)
 
-    grafana_dashboard_url = string
+    grafana_dashboard_url = optional(string)
 
-    prometheus_metrics_endpoint = string
+    prometheus_metrics_endpoint = optional(string)
   })
 
-  # defaults are pre-computed in locals.tf, provide a full definition to override
-  default = null
+  # defaults are pre-computed in locals.tf
+  default = {}
 }
 
 variable "enable_istio" {
