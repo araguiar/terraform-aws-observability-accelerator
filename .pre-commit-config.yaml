@@ -16,8 +16,6 @@ repos:
       - id: terraform_docs
         args:
           - '--args=--lockfile=false'
-          - markdown
-          - table
       - id: terraform_validate
         exclude: deploy
       - id: terraform_tflint
