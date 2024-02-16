@@ -150,32 +150,20 @@ variable "enable_kube_state_metrics" {
 variable "ksm_config" {
   description = "Kube State metrics configuration"
   type = object({
-    create_namespace   = bool
-    k8s_namespace      = string
-    helm_chart_name    = string
-    helm_chart_version = string
-    helm_release_name  = string
-    helm_repo_url      = string
-    helm_settings      = map(string)
-    helm_values        = map(any)
+    create_namespace   = optional(bool, true)
+    k8s_namespace      = optional(string, "kube-system")
+    helm_chart_name    = optional(string, "kube-state-metrics")
+    helm_chart_version = optional(string, "5.15.2")
+    helm_release_name  = optional(string, "kube-state-metrics")
+    helm_repo_url      = optional(string, "https://prometheus-community.github.io/helm-charts")
+    helm_settings      = optional(map(string), {})
+    helm_values        = optional(map(any), {})
 
-    scrape_interval = string
-    scrape_timeout  = string
+    scrape_interval = optional(string, "60s")
+    scrape_timeout  = optional(string, "15s")
   })
 
-  default = {
-    create_namespace   = true
-    helm_chart_name    = "kube-state-metrics"
-    helm_chart_version = "5.15.2"
-    helm_release_name  = "kube-state-metrics"
-    helm_repo_url      = "https://prometheus-community.github.io/helm-charts"
-    helm_settings      = {}
-    helm_values        = {}
-    k8s_namespace      = "kube-system"
-
-    scrape_interval = "60s"
-    scrape_timeout  = "15s"
-  }
+  default  = {}
   nullable = false
 }
 
@@ -188,32 +176,20 @@ variable "enable_node_exporter" {
 variable "ne_config" {
   description = "Node exporter configuration"
   type = object({
-    create_namespace   = bool
-    k8s_namespace      = string
-    helm_chart_name    = string
-    helm_chart_version = string
-    helm_release_name  = string
-    helm_repo_url      = string
-    helm_settings      = map(string)
-    helm_values        = map(any)
+    create_namespace   = optional(bool, true)
+    k8s_namespace      = optional(string, "prometheus-node-exporter")
+    helm_chart_name    = optional(string, "prometheus-node-exporter")
+    helm_chart_version = optional(string, "4.24.0")
+    helm_release_name  = optional(string, "prometheus-node-exporter")
+    helm_repo_url      = optional(string, "https://prometheus-community.github.io/helm-charts")
+    helm_settings      = optional(map(string), {})
+    helm_values        = optional(map(any), {})
 
-    scrape_interval = string
-    scrape_timeout  = string
+    scrape_interval = optional(string, "60s")
+    scrape_timeout  = optional(string, "60s")
   })
 
-  default = {
-    create_namespace   = true
-    helm_chart_name    = "prometheus-node-exporter"
-    helm_chart_version = "4.24.0"
-    helm_release_name  = "prometheus-node-exporter"
-    helm_repo_url      = "https://prometheus-community.github.io/helm-charts"
-    helm_settings      = {}
-    helm_values        = {}
-    k8s_namespace      = "prometheus-node-exporter"
-
-    scrape_interval = "60s"
-    scrape_timeout  = "60s"
-  }
+  default  = {}
   nullable = false
 }
 
@@ -226,14 +202,11 @@ variable "tags" {
 variable "prometheus_config" {
   description = "Controls default values such as scrape interval, timeouts and ports globally"
   type = object({
-    global_scrape_interval = string
-    global_scrape_timeout  = string
+    global_scrape_interval = optional(string, "120s")
+    global_scrape_timeout  = optional(string, "15s")
   })
 
-  default = {
-    global_scrape_interval = "120s"
-    global_scrape_timeout  = "15s"
-  }
+  default  = {}
   nullable = false
 }
 
@@ -272,18 +245,14 @@ variable "enable_tracing" {
 variable "tracing_config" {
   description = "Configuration object for traces collection to AWS X-Ray"
   type = object({
-    otlp_grpc_endpoint = string
-    otlp_http_endpoint = string
-    send_batch_size    = number
-    timeout            = string
+    otlp_grpc_endpoint = optional(string, "0.0.0.0:4317")
+    otlp_http_endpoint = optional(string, "0.0.0.0:4318")
+    send_batch_size    = optional(number, 50)
+    timeout            = optional(string, "30s")
   })
 
-  default = {
-    otlp_grpc_endpoint = "0.0.0.0:4317"
-    otlp_http_endpoint = "0.0.0.0:4318"
-    send_batch_size    = 50
-    timeout            = "30s"
-  }
+  default  = {}
+  nullable = false
 }
 
 variable "enable_custom_metrics" {
@@ -341,7 +310,6 @@ variable "enable_nginx" {
   type        = bool
   default     = false
 }
-
 
 variable "nginx_config" {
   description = "Configuration object for NGINX monitoring"
@@ -429,26 +397,17 @@ variable "enable_fluxcd" {
 variable "flux_config" {
   description = "FluxCD configuration"
   type = object({
-    create_namespace   = bool
-    k8s_namespace      = string
-    helm_chart_name    = string
-    helm_chart_version = string
-    helm_release_name  = string
-    helm_repo_url      = string
-    helm_settings      = map(string)
-    helm_values        = map(any)
+    create_namespace   = optional(bool, true)
+    k8s_namespace      = optional(string, "flux-system")
+    helm_chart_name    = optional(string, "flux2")
+    helm_chart_version = optional(string, "2.12.2")
+    helm_release_name  = optional(string, "observability-fluxcd-addon")
+    helm_repo_url      = optional(string, "https://fluxcd-community.github.io/helm-charts")
+    helm_settings      = optional(map(string), {})
+    helm_values        = optional(map(any), {})
   })
 
-  default = {
-    create_namespace   = true
-    helm_chart_name    = "flux2"
-    helm_chart_version = "2.12.2"
-    helm_release_name  = "observability-fluxcd-addon"
-    helm_repo_url      = "https://fluxcd-community.github.io/helm-charts"
-    helm_settings      = {}
-    helm_values        = {}
-    k8s_namespace      = "flux-system"
-  }
+  default  = {}
   nullable = false
 }
 
@@ -461,22 +420,15 @@ variable "enable_grafana_operator" {
 variable "go_config" {
   description = "Grafana Operator configuration"
   type = object({
-    create_namespace   = bool
-    helm_chart         = string
-    helm_name          = string
-    k8s_namespace      = string
-    helm_release_name  = string
-    helm_chart_version = string
+    create_namespace   = optional(bool, true)
+    helm_chart         = optional(string, "oci://ghcr.io/grafana-operator/helm-charts/grafana-operator")
+    helm_name          = optional(string, "grafana-operator")
+    k8s_namespace      = optional(string, "grafana-operator")
+    helm_release_name  = optional(string, "grafana-operator")
+    helm_chart_version = optional(string, "v5.5.2")
   })
 
-  default = {
-    create_namespace   = true
-    helm_chart         = "oci://ghcr.io/grafana-operator/helm-charts/grafana-operator"
-    helm_name          = "grafana-operator"
-    k8s_namespace      = "grafana-operator"
-    helm_release_name  = "grafana-operator"
-    helm_chart_version = "v5.5.2"
-  }
+  default  = {}
   nullable = false
 }
 
